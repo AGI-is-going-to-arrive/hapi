@@ -188,6 +188,7 @@ export class SyncEngine {
         mode?: 'local' | 'remote'
         permissionMode?: PermissionMode
         model?: string | null
+        modelReasoningEffort?: string | null
         effort?: string | null
         collaborationMode?: CodexCollaborationMode
     }): void {
@@ -222,9 +223,10 @@ export class SyncEngine {
         agentState: unknown,
         namespace: string,
         model?: string,
-        effort?: string
+        effort?: string,
+        modelReasoningEffort?: string
     ): Session {
-        return this.sessionCache.getOrCreateSession(tag, metadata, agentState, namespace, model, effort)
+        return this.sessionCache.getOrCreateSession(tag, metadata, agentState, namespace, model, effort, modelReasoningEffort)
     }
 
     getOrCreateMachine(id: string, metadata: unknown, runnerState: unknown, namespace: string): Machine {
@@ -295,6 +297,7 @@ export class SyncEngine {
         config: {
             permissionMode?: PermissionMode
             model?: string | null
+            modelReasoningEffort?: string | null
             effort?: string | null
             collaborationMode?: CodexCollaborationMode
         }
@@ -307,6 +310,7 @@ export class SyncEngine {
             applied?: {
                 permissionMode?: Session['permissionMode']
                 model?: Session['model']
+                modelReasoningEffort?: Session['modelReasoningEffort']
                 effort?: Session['effort']
                 collaborationMode?: Session['collaborationMode']
             }
@@ -408,7 +412,7 @@ export class SyncEngine {
             metadata.path,
             flavor,
             session.model ?? undefined,
-            undefined,
+            session.modelReasoningEffort ?? undefined,
             undefined,
             undefined,
             undefined,
